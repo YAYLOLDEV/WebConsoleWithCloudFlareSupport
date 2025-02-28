@@ -14,8 +14,7 @@ $(document).ready(function() {
 	updateServerList();
 
 
-		$("#server-ssl").prop('checked', true);
-		$("#server-ssl").prop("disabled", true);
+		$("#server-ssl").prop('checked', true).prop("disabled", true);
 	
 
 	//Remove servers from persistence with invalid names. See v1.4-rev2 for details
