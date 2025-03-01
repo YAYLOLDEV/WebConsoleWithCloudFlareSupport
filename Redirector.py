@@ -10,15 +10,15 @@ SSL_Cert = "/home/certs/cert.pem" # The Path to the SSL Cert
 Main_port = 2083 # If you are using Cloudflare, Visit https://developers.cloudflare.com/fundamentals/reference/network-ports/
                  # And Check That you are Using A supported Port. If you are using Ssl, Use a Supported Https Port.
 
-port_mapping = { # This is The port Mapping, Its the Ports That you are Connecting to, Based On which Patch you are Using.
-    "/hub": 327, # Eg. "/hub" : 327 If you are connecting to URL:PORT/hub (The thing You need to Set In the Webconsole Plugin)
-    "/smp": 330  # You will be redirected to The port 327 No matter if Cloudflare Supports it or Not
+port_mapping = {
+    "/hub": 327,
+    "/smp": 330
 }
 
 
-async def relay(websocket, path):
+async def relay(websocket: websockets.ClientConnection):
     # Get the port from the port mapping
-    port = port_mapping.get(path, None)
+    port = port_mapping.get(websocket.request.path, None)
     if port is None:
         # If the path is not in the mapping, close the connection
         await websocket.close()
@@ -41,13 +41,16 @@ async def relay(websocket, path):
         print(f"Connection closed with status {close_status} and message {close_message}")
 
     await asyncio.gather(forward_to_target(), forward_from_target())
+async def main():
+    if SSL_ENABLED:
+        ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+        ssl_context.load_cert_chain(SSL_Cert,SSL_Key)
+        async with websockets.serve(relay, "0.0.0.0", 2053, ssl=ssl_context) as server:
+            await server.serve_forever()
+    else:
+        async with websockets.serve(relay, "0.0.0.0", 2053) as server:
+            await server.serve_forever()
 
-if SSL_ENABLED:
-    ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-    ssl_context.load_cert_chain(SSL_Cert,SSL_Key)
-    start_server = websockets.serve(relay,port=Main_port,ssl=ssl_context)
-else:
-    start_server = websockets.serve(relay,port=Main_port)
+asyncio.run(main())
 
-asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever()
+
