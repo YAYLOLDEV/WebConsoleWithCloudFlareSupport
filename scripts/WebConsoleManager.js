@@ -7,7 +7,6 @@
 class WebConsoleManager {
 	constructor(){
 		this.activeConnections = []; //Active Connectors list
-
 	}
 	
 	/**
@@ -18,7 +17,17 @@ class WebConsoleManager {
 		if(this.activeConnection){
 			this.activeConnection.removeSubscribers();
 		}
-
+		
+		//If connection exists, load it
+		var manager = this;
+		var i;
+		for (i = 0; i < this.activeConnections.length; i++) { 
+			if(this.activeConnections[i].serverName == serverName){
+				manager.activeConnection = this.activeConnections[i];
+				return;
+			}
+		}
+		
 		//If not created yet, create it
 		var serverObj = new WebConsolePersistenceManager().getServer(serverName);
 		this.activeConnection = new WebConsoleConnector(serverObj.serverName, serverObj.serverURI);
@@ -46,12 +55,7 @@ class WebConsoleManager {
 			}
 		}
 	}
-	test(sting) {
-		this.activeConnection.sendToServer({
-			command: "TPSH",
-			token: this.activeConnection.token,
-		});
-	}
+	
 	/**
 	* Send password to server
 	*/
@@ -93,10 +97,21 @@ class WebConsoleManager {
 			command: "RAMUSAGE",
 			token: this.activeConnection.token,
 		});
+
 		this.activeConnection.sendToServer({
 			command: "TPS",
 			token: this.activeConnection.token,
 		});
-		
 	}
+
+	/**
+	* Asks server for full latest.log
+	*/
+	askForLogs(){
+		this.activeConnection.sendToServer({
+			command: "READLOGFILE",
+			token: this.activeConnection.token,
+		});
+	}
+	
 }

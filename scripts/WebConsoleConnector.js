@@ -4,9 +4,6 @@
  https://github.com/mesacarlos
  2019-2020 Carlos Mesa under MIT License.
 */
-function clearcolor(message) {
-	return message.replace("","").replace("","").replace("","").replace("","").replace("","").replace("","").replace("","").replace("","");
-}
 class WebConsoleConnector {
 	
 	constructor(serverName, serverURI) {
@@ -23,8 +20,6 @@ class WebConsoleConnector {
 	/**
 	* Connect to WebSocket
 	*/
-
-
 	connect(){
 		var connector = this;
 		this.websocket = new WebSocket(this.serverURI);
@@ -53,9 +48,9 @@ class WebConsoleConnector {
 	* Internal function
 	*/
 	onMessage(evt){
-
 		var obj = JSON.parse(evt.data);
-		console.log(obj.message)
+
+
 		if(obj.status === 200) //If is a LoggedIn response, save our token
 			this.token = obj.token;
 		

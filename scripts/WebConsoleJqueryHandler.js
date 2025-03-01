@@ -2,11 +2,11 @@
  JS File containing all JQuery-related handlers
  https://github.com/mesacarlos
  2019-2020 Carlos Mesa under MIT License.
- */
+*/
 
 /**
- * Show saved serverlist on startup
- */
+* Show saved serverlist on startup
+*/
 $(document).ready(function() {
 	$("#serverContainer").hide();
 	persistenceManager.initializeSettings();
@@ -32,8 +32,8 @@ $(document).ready(function() {
 });
 
 /**
- * Add server modal button click
- */
+* Add server modal button click
+*/
 $("#saveAndConnectServerButton").click(function() {
 	//Validate form data
 	var addServerForm = document.getElementById("addServerForm");
@@ -41,7 +41,7 @@ $("#saveAndConnectServerButton").click(function() {
 		addServerForm.classList.add('was-validated');
 		return;
 	}
-
+	
 	//Save server
 	var name = $("#server-name").val().replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/'/g,"").replace(/"/g,"");
 	var wcIp = $("#server-ip").val();
@@ -63,41 +63,41 @@ $("#saveAndConnectServerButton").click(function() {
 	$("#server-name").val("");
 	$("#server-ip").val("");
 	$("#server-port").val("");
-
+	
 	//Update GUI serverlist
 	updateServerList();
-
+	
 	//Connect to server
 	openServer(name);
 });
 
 /**
- * Password modal button click
- */
+* Password modal button click
+*/
 $("#passwordSendButton").click(function() {
 	//Close modal
 	$('#passwordModal').modal('hide');
 });
 
 /**
- * Password modal Enter key pressed
- */
+* Password modal Enter key pressed
+*/
 $("#passwordForm").submit(function(event){
 	//Solves bug with forms:
 	event.preventDefault();
-
+	
 	//Close modal
 	$('#passwordModal').modal('hide');
 });
 
 /**
- * On password modal close (Login)
- */
+* On password modal close (Login)
+*/
 $('#passwordModal').on('hidden.bs.modal', function (e) {
 	//Send LOGIN command to server
 	var pwd = $("#server-pwd").val();
 	connectionManager.sendPassword(pwd);
-
+	
 	//Save password if set
 	var savePasswordChecked = $("#rememberPwdCheckbox").prop("checked");
 	if(savePasswordChecked){
@@ -107,14 +107,14 @@ $('#passwordModal').on('hidden.bs.modal', function (e) {
 		svObj.setPassword(pwd);
 		persistenceManager.saveServer(svObj);
 	}
-
+	
 	//Remove password from modal
 	$("#server-pwd").val('');
 });
 
 /**
- * On send command button click
- */
+* On send command button click
+*/
 $("#sendCommandButton").click(function() {
 	connectionManager.sendConsoleCmd($("#commandInput").val());
 	$("#commandInput").val('');
@@ -122,19 +122,19 @@ $("#sendCommandButton").click(function() {
 });
 
 /**
- * Enter or arrow down/up key on command input
- */
+* Enter or arrow down/up key on command input
+*/
 $("#commandInput").on('keyup', function (e) {
 	if(e.which === 13){ //Detect enter key
 		//Disable textbox to prevent multiple submit
 		$(this).attr("disabled", "disabled");
-
+		
 		//Send command
 		sendCommandButton.click();
 
 		//Enable the textbox again.
 		$(this).removeAttr("disabled");
-
+		
 		//Focus again
 		$(this).focus();
 	}else if(e.which === 38){ //Detect arrow up key
@@ -159,51 +159,51 @@ $("#commandInput").on('keyup', function (e) {
 });
 
 /**
- * On delete server button click
- */
+* On delete server button click
+*/
 $("#deleteServerButton").click(function() {
 	var name = connectionManager.activeConnection.serverName;
 	//Remove subscribers
 	connectionManager.activeConnection.removeSubscribers();
-
+	
 	//Delete from active connections
 	connectionManager.deleteConnection(name);
-
+	
 	//Back to homepage
 	backToHomepage();
-
+	
 	//Remove from persistence
 	persistenceManager.deleteServer(name);
-
+	
 	//Update dropdown
 	updateServerList();
-
+	
 });
 
 /**
- * On Navbar Home link clicked
- */
+* On Navbar Home link clicked
+*/
 $("#navbarBrandLink").click(function() {
 	backToHomepage();
 });
 
 /**
- * On Navbar Brand link clicked
- */
+* On Navbar Brand link clicked
+*/
 $("#navbarHomeLink").click(function() {
 	backToHomepage();
 });
 
 /**
- * On DisconnectedModal, back to welcome screen clicked
- */
+* On DisconnectedModal, back to welcome screen clicked
+*/
 $("#disconnectionModalWelcomeScreenButton").click(function() {
 	backToHomepage();
 });
 
 /**
- * On Settings link clicked
- */
+* On Settings link clicked
+*/
 $("#settingsLink").click(function() {
 	//Update modal switches and boxes with saved settings
 	$("#showDateSettingsSwitch").prop("checked", persistenceManager.getSetting("dateTimePrefix"));
@@ -211,16 +211,16 @@ $("#settingsLink").click(function() {
 });
 
 /**
- * On showDateSettingsSwitch switched
- */
+* On showDateSettingsSwitch switched
+*/
 $("#showDateSettingsSwitch").click(function() {
 	//Update modal switches and boxes with saved settings
 	persistenceManager.setSetting("dateTimePrefix", $("#showDateSettingsSwitch").is(":checked"));
 });
 
 /**
- * On readLogFileSwitch switched
- */
+* On readLogFileSwitch switched
+*/
 $("#readLogFileSwitch").click(function() {
 	//Update modal switches and boxes with saved settings
 	persistenceManager.setSetting("retrieveLogFile", $("#readLogFileSwitch").is(":checked"));

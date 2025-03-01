@@ -2,7 +2,7 @@
  Main JS file for WebConsole.
  https://github.com/mesacarlos
  2019-2020 Carlos Mesa under MIT License.
- */
+*/
 
 /**
  * Global variables
@@ -40,26 +40,26 @@ function readServerList() {
 }
 
 /**
- * Prepare and show server to user
- */
+* Prepare and show server to user
+*/
 function openServer(serverName){
 	//Hide welcome div if user is not in welcome page
 	$("#welcomeContainer").hide();
 	$("#serverContainer").show();
-
+	
 	//Change server name and related info
 	$("#serverTitle").text(serverName);
 	$("#consoleTextArea").text("");
 	$("#commandInput").prop("disabled", false);
 	$("#sendCommandButton").prop("disabled", false);
-
+	
 	//New server, new variables:
 	autoPasswordCompleted = false;
 	commandHistoryIndex = -1; //Reset command history index
-
+	
 	//Create or retrieve connection
 	connectionManager.loadConnection(serverName);
-
+	
 	//Load saved messages
 	let i;
 	const messages = connectionManager.activeConnection.messages;
@@ -68,7 +68,7 @@ function openServer(serverName){
 			onWebSocketsMessage(messages[i]);
 		}
 	}
-
+	
 	//Subscribe a function
 	connectionManager.activeConnection.subscribe(onWebSocketsMessage);
 }
@@ -112,7 +112,6 @@ function onWebSocketsMessage(message){
 				autoPasswordCompleted = true;
 			}else{
 				$('#passwordModal').modal('show');
-				$('#loadingmodal').modal('hide');
 			}
 			break;
 		case 1000:
@@ -136,7 +135,7 @@ function onWebSocketsMessage(message){
 			console.log('Unknown server response:');
 	}
 	console.log(message);
-
+	
 	//Add interval for Players, CPU and RAM info, if not set
 	if(statusCommandsInterval === -1 && message.status !== 401){
 		statusCommandsInterval = setInterval(function(){
@@ -146,15 +145,15 @@ function onWebSocketsMessage(message){
 }
 
 /**
- * Write to console
- */
+* Write to console
+*/
 function writeToWebConsole(msg, time){
 	const isScrolledDown = document.getElementById("consoleTextArea").scrollHeight - document.getElementById("consoleTextArea").scrollTop - 40 === $("#consoleTextArea").height();
 
 	//Write to div, replacing < to &lt; (to avoid XSS) and replacing new line to br.
 	msg = msg.replace(/</g, "&lt;");
 	msg = msg.replace(/(?:\r\n|\r|\n)/g, "<br>");
-
+	
 	//Color filter for Windows (thanks to SuperPykkon)
 	msg = msg.replace(/\[0;30;22m/g, "<span style='color: #000000;'>"); //&0
 	msg = msg.replace(/\[0;34;22m/g, "<span style='color: #0000AA;'>"); //&1
@@ -173,7 +172,7 @@ function writeToWebConsole(msg, time){
 	msg = msg.replace(/\[0;33;1m/g, "<span style='color: #FFFF55;'>");  //&e
 	msg = msg.replace(/\[0;37;1m/g, "<span style='color: #FFFFFF;'>");  //&f
 	msg = msg.replace(/\[m/g, "</span>");  //&f
-
+	
 	//Color filter for UNIX (This is easier!)
 	//span may not be closed every time but browsers will do for ourselves
 	msg = msg.replace(/§0/g, "<span style='color: #000000;'>"); //&0
@@ -192,12 +191,12 @@ function writeToWebConsole(msg, time){
 	msg = msg.replace(/§d/g, "<span style='color: #FF55FF;'>"); //&d
 	msg = msg.replace(/§e/g, "<span style='color: #FFFF55;'>"); //&e
 	msg = msg.replace(/§f/g, "<span style='color: #FFFFFF;'>"); //&f
-
+	
 	msg = msg.replace(/§l/g, "<span style='font-weight:bold;'>"); //&l
 	msg = msg.replace(/§m/g, "<span style='text-decoration: line-through;'>"); //&m
 	msg = msg.replace(/§n/g, "<span style='text-decoration: underline;'>"); //&n
 	msg = msg.replace(/§o/g, "<span style='font-style: italic;'>"); //&o
-
+	
 	msg = msg.replace(/§r/g, "</span>");  //&r
 
 	//Append datetime if enabled
@@ -209,10 +208,10 @@ function writeToWebConsole(msg, time){
 		else
 			msg = "[" + new Date().toLocaleTimeString() + "] " + msg;
 	}
-
-
+		
+	
 	$("#consoleTextArea").append(msg + "<br>");
-
+	
 	if(isScrolledDown){
 		const textarea = document.getElementById('consoleTextArea');
 		textarea.scrollTop = textarea.scrollHeight;
@@ -220,8 +219,8 @@ function writeToWebConsole(msg, time){
 }
 
 /**
- * Fill connected players card
- */
+* Fill connected players card
+*/
 function writePlayerInfo(connected, maximum){
 	$("#connectedPlayers").text(connected);
 	$("#maxPlayers").text(maximum);
@@ -231,17 +230,17 @@ function writePlayerInfo(connected, maximum){
 }
 
 /**
- * Fill CPU info card
- */
+* Fill CPU info card
+*/
 function writeCpuInfo(usage){
 	$("#cpuInfo").text(usage + "%");
-
+	
 	$("#CpuProgressBar").width(usage + "%");
 }
 
 /**
- * Fill RAM info card
- */
+* Fill RAM info card
+*/
 function writeRamInfo(free, used, total){
 	$("#usedRam").text(used);
 	$("#totalRam").text(total);
@@ -264,10 +263,24 @@ function writeTpsInfo(tps, max){
 	$("#TpsProgressBar").width(percent + "%");
 }
 
+/**
+* Called from WebConsoleConnector only.
+*/
+function closedConnection(serverName){
+	if(connectionManager.activeConnection.serverName === serverName){
+		//Disable command input and button
+		$("#commandInput").prop("disabled", true);
+		$("#sendCommandButton").prop("disabled", true);
+		
+		//Inform user
+		$('#disconnectionModal').modal('show');
+	}
+	connectionManager.deleteConnection(serverName, true);
+}
 
 /**
- * Shows welcome screen
- */
+* Shows welcome screen
+*/
 function backToHomepage(){
 	//Stop gathering info from server
 	clearInterval(statusCommandsInterval);
@@ -275,44 +288,31 @@ function backToHomepage(){
 
 	//Reset command history index
 	commandHistoryIndex = -1;
-
+	
 	//Clear all server indicators
 	writePlayerInfo(0, 0);
 	writeCpuInfo(0);
 	writeRamInfo(0, 0, 0);
-
+	
 	$("#welcomeContainer").show();
 	$("#serverContainer").hide();
 }
 
 /**
- * Update dropdown with saved server list
- */
+* Update dropdown with saved server list
+*/
 function updateServerList(){
 	//Delete all servers in dropdown
 	$('.servermenuitem').remove();
-
+	
 	//Add all servers
 	const servers = persistenceManager.getAllServers();
 	for(let i = 0; i < servers.length; i++){
 		$('#ServerListDropDown').append('<a class="dropdown-item servermenuitem" href="#" onclick="openServer(\'' + servers[i].serverName + '\')">' + servers[i].serverName.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/'/g,"").replace(/"/g,"") + '</a>');
 	}
-
+	
 	//Show a "no servers" message when no servers are added
 	if(servers.length === 0){
 		$('#ServerListDropDown').append('<a class="dropdown-item servermenuitem disabled" href="#" id="noServersAdded">No servers added</a>');
 	}
 }
-function closedConnection(serverName){
-	if(connectionManager.activeConnection.serverName === serverName){
-		//Disable command input and button
-		$("#commandInput").prop("disabled", true);
-		$("#sendCommandButton").prop("disabled", true);
-		setTimeout(retry,10000)
-		//Inform user
-		$('#loadingmodal').modal({backdrop: 'static', keyboard: false}, 'show');
-
-	}
-	connectionManager.deleteConnection(serverName, true);
-}
-function retry(){openServer(connectionManager.activeConnection.serverName);}
