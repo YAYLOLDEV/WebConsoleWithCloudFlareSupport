@@ -7,6 +7,10 @@
 /**
  * Global variables
  */
+
+import { AnsiUp } from './ansi_up.js'
+var ansi_up = new AnsiUp();
+
 const persistenceManager = new WebConsolePersistenceManager();
 const connectionManager = new WebConsoleManager();
 let lang;
@@ -152,11 +156,11 @@ function writeToWebConsole(msg, time){
 
 	//Write to div, replacing < to &lt; (to avoid XSS) and replacing new line to br.
 	msg = msg.replace(/</g, "&lt;");
-	msg = msg.replace(/(?:\r\n|\r|\n)/g, "<br>");
+	msg = msg.replace(/\r\n|\r|\n/g, "<br>");
 
 	
 	//Color filter for Windows (thanks to SuperPykkon)
-	msg = msg.replace("\u001b[38;5;0m", "<span style='color: #000000;'>"); //&0
+	/*msg = msg.replace("\u001b[38;5;0m", "<span style='color: #000000;'>"); //&0
 	msg = msg.replace(/\[0;34;22m/g, "<span style='color: #0000AA;'>"); //&1
 	msg = msg.replace(/\[0;32;22m/g, "<span style='color: #00AA00;'>"); //&2
 	msg = msg.replace(/\[0;36;22m/g, "<span style='color: #00AAAA;'>"); //&3
@@ -166,12 +170,13 @@ function writeToWebConsole(msg, time){
 	msg = msg.replace(/\[0;37;22m/g, "<span style='color: #AAAAAA;'>"); //&7
 	msg = msg.replace(/\[0;30;1m/g, "<span style='color: #555555;'>");  //&8
 	msg = msg.replace(/\[0;34;1m/g, "<span style='color: #5555FF;'>");  //&9
-	msg = msg.replace(/\[0;32;1m/g, "<span style='color: #55FF55;'>");  //&a
+	msg = msg.replace("\u001b[38;5;10", "<span style='color: #55FF55;'>");  //&a
 	msg = msg.replace(/\[0;36;1m/g, "<span style='color: #55FFFF;'>");  //&b
 	msg = msg.replace(/\[0;31;1m/g, "<span style='color: #FF5555;'>");  //&c
 	msg = msg.replace(/\[0;35;1m/g, "<span style='color: #FF55FF;'>");  //&d
 	msg = msg.replace("\u001b[38;5;11m", "<span style='color: #FFFF55;'>");  //&e
 	msg = msg.replace("\u001b[38;5;15m", "<span style='color: #FFFFFF;'>");  //&f
+	msg = msg.replace("[38;5;15m", "<span style='color: #FFFFFF;'>");  //&f
 	msg = msg.replace("\u001b[0m", "</span>");  //&f
 	
 	//Color filter for UNIX (This is easier!)
@@ -198,7 +203,8 @@ function writeToWebConsole(msg, time){
 	msg = msg.replace(/§n/g, "<span style='text-decoration: underline;'>"); //&n
 	msg = msg.replace(/§o/g, "<span style='font-style: italic;'>"); //&o
 	
-	msg = msg.replace(/§r/g, "</span>");  //&r
+	msg = msg.replace("\u001b[0m", "</span>");  //&r*/
+	msg = ansi_up.ansi_to_html(msg);
 
 	//Append datetime if enabled
 	if(persistenceManager.getSetting("dateTimePrefix")){
