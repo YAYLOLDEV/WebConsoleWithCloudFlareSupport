@@ -122,6 +122,13 @@ $("#sendCommandButton").click(function() {
 	commandHistoryIndex = -1; //Reset command history index
 });
 
+
+$("#loadServerFromText").on("click", function() {
+	var text = btoa(prompt("Enter Text here"));
+	localStorage.setItem("WebConsole", text);
+})
+
+
 /**
 * Enter or arrow down/up key on command input
 */
