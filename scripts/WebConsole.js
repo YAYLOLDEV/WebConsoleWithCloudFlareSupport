@@ -154,7 +154,7 @@ function writeToWebConsole(msg, time){
 	const isScrolledDown = document.getElementById("consoleTextArea").scrollHeight - document.getElementById("consoleTextArea").scrollTop - 40 === $("#consoleTextArea").height();
 
 	//Write to div, replacing < to &lt; (to avoid XSS) and replacing new line to br.
-	msg = msg.replace(/</g, "&lt;");
+	msg = msg.replace(/</g, "");
 	msg = msg.replace(/\r\n|\r|\n/g, "<br>");
 
 	
