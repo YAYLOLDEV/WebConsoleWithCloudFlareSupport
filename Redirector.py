@@ -3,8 +3,8 @@ import websockets
 import json,ssl
 
 SSL_ENABLED = True # Set This To True If You Are Using SSL to connect to the Redirector. In any Way Set SSL In the Plugin Config to False.
-SSL_Key = "/home/certs/key.pem" # The Path to the SSL Key
-SSL_Cert = "/home/certs/cert.pem" # The Path to the SSL Cert
+SSL_Key = "/home/certs/privatekey.pem" # The Path to the SSL Key
+SSL_Cert = "/home/certs/certificate.pem" # The Path to the SSL Cert
 
                  # The port The Redirector Should Run on, Its the one you need to connect to In the Webconsole Client.
 Main_port = 2083 # If you are using Cloudflare, Visit https://developers.cloudflare.com/fundamentals/reference/network-ports/
@@ -12,11 +12,12 @@ Main_port = 2083 # If you are using Cloudflare, Visit https://developers.cloudfl
 
 port_mapping = {
     "/hub": 327,
-    "/smp": 330
+    "/main": 330
 }
 
 
-async def relay(websocket: websockets.ClientConnection):
+async def relay(websocket: websockets.ServerConnection):
+    print("connnected")
     # Get the port from the port mapping
     port = port_mapping.get(websocket.request.path, None)
     if port is None:
@@ -51,6 +52,6 @@ async def main():
         async with websockets.serve(relay, "0.0.0.0", 2053) as server:
             await server.serve_forever()
 
-asyncio.run(main())
-
+if __name__ == "__main__":
+    asyncio.run(main())
 
