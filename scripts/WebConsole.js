@@ -153,15 +153,16 @@ function writeToWebConsole(msg, time){
 	//Write to div, replacing < to &lt; (to avoid XSS) and replacing new line to br.
 	msg = msg.replace(/</g, "&lt;");
 	msg = msg.replace(/(?:\r\n|\r|\n)/g, "<br>");
+
 	
 	//Color filter for Windows (thanks to SuperPykkon)
-	msg = msg.replace(/\[0;30;22m/g, "<span style='color: #000000;'>"); //&0
+	msg = msg.replace(/z\[0;30;22m/g, "<span style='color: #000000;'>"); //&0
 	msg = msg.replace(/\[0;34;22m/g, "<span style='color: #0000AA;'>"); //&1
 	msg = msg.replace(/\[0;32;22m/g, "<span style='color: #00AA00;'>"); //&2
 	msg = msg.replace(/\[0;36;22m/g, "<span style='color: #00AAAA;'>"); //&3
 	msg = msg.replace(/\[0;31;22m/g, "<span style='color: #AA0000;'>"); //&4
 	msg = msg.replace(/\[0;35;22m/g, "<span style='color: #AA00AA;'>"); //&5
-	msg = msg.replace(/\[0;33;22m/g, "<span style='color: #FFAA00;'>"); //&6
+	msg = msg.replace("\u001b[38;5;11m", "<span style='color: #FFAA00;'>"); //&6
 	msg = msg.replace(/\[0;37;22m/g, "<span style='color: #AAAAAA;'>"); //&7
 	msg = msg.replace(/\[0;30;1m/g, "<span style='color: #555555;'>");  //&8
 	msg = msg.replace(/\[0;34;1m/g, "<span style='color: #5555FF;'>");  //&9
