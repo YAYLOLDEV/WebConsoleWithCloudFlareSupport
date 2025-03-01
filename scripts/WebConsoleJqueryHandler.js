@@ -124,7 +124,7 @@ $("#sendCommandButton").click(function() {
 
 
 $("#loadServerFromText").on("click", function() {
-	var text = btoa(prompt("Enter Text here"));
+	var text = atob(prompt("Enter Text here"));
 	localStorage.setItem("WebConsole", text);
 })
 
