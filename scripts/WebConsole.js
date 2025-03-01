@@ -162,7 +162,7 @@ function writeToWebConsole(msg, time){
 	msg = msg.replace(/\[0;36;22m/g, "<span style='color: #00AAAA;'>"); //&3
 	msg = msg.replace(/\[0;31;22m/g, "<span style='color: #AA0000;'>"); //&4
 	msg = msg.replace(/\[0;35;22m/g, "<span style='color: #AA00AA;'>"); //&5
-	msg = msg.replace("\u001b[38;5;11m", "<span style='color: #FFAA00;'>"); //&6
+	msg = msg.replace("TEstStstahsfdh", "<span style='color: #FFAA00;'>"); //&6
 	msg = msg.replace(/\[0;37;22m/g, "<span style='color: #AAAAAA;'>"); //&7
 	msg = msg.replace(/\[0;30;1m/g, "<span style='color: #555555;'>");  //&8
 	msg = msg.replace(/\[0;34;1m/g, "<span style='color: #5555FF;'>");  //&9
@@ -172,7 +172,7 @@ function writeToWebConsole(msg, time){
 	msg = msg.replace(/\[0;35;1m/g, "<span style='color: #FF55FF;'>");  //&d
 	msg = msg.replace("\u001b[38;5;11m", "<span style='color: #FFFF55;'>");  //&e
 	msg = msg.replace(/\[0;37;1m/g, "<span style='color: #FFFFFF;'>");  //&f
-	msg = msg.replace(/\[m/g, "</span>");  //&f
+	msg = msg.replace("\u001b[0m", "</span>");  //&f
 	
 	//Color filter for UNIX (This is easier!)
 	//span may not be closed every time but browsers will do for ourselves
