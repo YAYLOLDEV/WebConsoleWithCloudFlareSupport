@@ -87,8 +87,8 @@ function onWebSocketsMessage(message){
 			writeToWebConsole(message.message);
 
 			//Show user and permissions
-			$("#loggedUsernameLabel").text(message.username);
-			$("#loggedUserTypeLabel").text(message.as);
+			//$("#loggedUsernameLabel").text(message.username);
+			//$("#loggedUserTypeLabel").text(message.as);
 
 			//Disable command bar if user is viewer
 			if(message.as.toLowerCase() === "viewer"){
