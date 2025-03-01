@@ -50,6 +50,7 @@ $("#saveAndConnectServerButton").click(function() {
 	var uri;
 	if(wcSsl){
 		uri = "wss://" + wcIp + ":" + wcPort;
+
 	}else{
 		uri = "ws://" + wcIp + ":" + wcPort;
 	}
