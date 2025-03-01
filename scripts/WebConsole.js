@@ -112,6 +112,7 @@ function onWebSocketsMessage(message){
 				autoPasswordCompleted = true;
 			}else{
 				$('#passwordModal').modal('show');
+				$('#loadingmodal').modal('hide');
 			}
 			break;
 		case 1000:
