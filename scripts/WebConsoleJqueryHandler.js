@@ -1,3 +1,4 @@
+
 /**
  JS File containing all JQuery-related handlers
  https://github.com/mesacarlos

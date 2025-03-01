@@ -8,7 +8,6 @@
  * Global variables
  */
 
-import { AnsiUp } from './ansi_up.js'
 var ansi_up = new AnsiUp();
 
 const persistenceManager = new WebConsolePersistenceManager();
