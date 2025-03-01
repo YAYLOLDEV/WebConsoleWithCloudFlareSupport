@@ -193,7 +193,7 @@ function writeToWebConsole(msg, time){
 	msg = msg.replace(/§e/g, "<span style='color: #FFFF55;'>"); //&e
 	msg = msg.replace(/§f/g, "<span style='color: #FFFFFF;'>"); //&f
 	
-	msg = msg.replace(/§l/g, "<span style='font-weight:bold;'>"); //&l
+	msg = msg.replace("\u001b[1m", "<span style='font-weight:bold;'>"); //&l
 	msg = msg.replace(/§m/g, "<span style='text-decoration: line-through;'>"); //&m
 	msg = msg.replace(/§n/g, "<span style='text-decoration: underline;'>"); //&n
 	msg = msg.replace(/§o/g, "<span style='font-style: italic;'>"); //&o
