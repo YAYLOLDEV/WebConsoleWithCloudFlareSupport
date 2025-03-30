@@ -141,15 +141,37 @@
 			</div>
 		</div>
 
-		<div class="card mb-2">
-			<div class="card-body overflow-auto text-light bg-dark console" id="consoleTextArea"></div>
-		</div>
-		<div class="input-group mb-3">
+		<div class="row">
+			<div class="card mb-2 col-sm-10 w-100 p-0" style="width: fit-content;">
+				<div class="card-body overflow-auto text-light bg-dark console" id="consoleTextArea"></div>
+			</div>
+			<div class="col-sm-2">
+				<h5>Server Actions</h5>
+				<div>
+				<button type="button" id="broadcastbtn" class="btn btn-primary p-0 w-100">Broadcast</button>
+				</div>
+				<h5>Players</h5>
+				<div class=" list-group p-0 w-100" id="playerlist" style="word-break: keep-all; outline: 10px; border: gray 1px solid; min-height: fit-content;height: auto;padding-bottom: 10px; width: fit-content; overflow: auto; max-height: 400px;"></div>
+				<h5>Player Actions</h5>
+				<div style="outline: 10px; border: gray 1px solid; border-radius: 10px">
+					<button type="button" id="msgbtn" class="btn btn-secondary p-0 w-100">Message</button>
+					<button type="button" id="kickbtn" class="btn btn-warning p-0 w-100">Kick</button>
+					<button type="button" id="banbtn" class="btn btn-danger p-0 w-100">Ban</button>
+
+				</div>
+
+			</div>
+
+
+		<div class="input-group">
 			<input type="text" class="form-control" id="commandInput">
 			<div class="input-group-append">
 				<button class="btn btn-secondary" type="button" id="sendCommandButton">Send</button>
 			</div>
 		</div>
+
+		</div>
+
 	</div>
 </main>
 <div class="modal fade" id="loadingmodal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"

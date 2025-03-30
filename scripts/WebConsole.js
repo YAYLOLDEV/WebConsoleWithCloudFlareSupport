@@ -9,7 +9,7 @@
  */
 
 var ansi_up = new AnsiUp();
-
+var playersinlist = [];
 const persistenceManager = new WebConsolePersistenceManager();
 const connectionManager = new WebConsoleManager();
 let lang;
@@ -121,7 +121,19 @@ function onWebSocketsMessage(message){
 			//Players
 			writePlayerInfo(message.connectedPlayers, message.maxPlayers);
 			connectionManager.activeConnection.players = JSON.parse(message.players);
+		//	$("#playerlist").empty();
+			for (const player of connectionManager.activeConnection.players) {
+				const btn = document.createElement("button");
+				btn.type= "button"
+				btn.className="list-group-item list-group-item-action"
+				btn.setAttribute("data-toggle","list")
+				btn.innerText = player
+				if (playersinlist.indexOf(player) === -1) {$("#playerlist").append(btn);playersinlist.push(player)}
+
+
+			}
 			break;
+
 		case 1001:
 			//Cpu Usage
 			writeCpuInfo(message.usage);
@@ -156,6 +168,14 @@ function writeToWebConsole(msg, time){
 	//Write to div, replacing < to &lt; (to avoid XSS) and replacing new line to br.
 	msg = msg.replace(/</g, "");
 	msg = msg.replace(/\r\n|\r|\n/g, "<br>");
+	if (msg.includes(" lost connection")){
+		console.log("Player left "+msg.split(" lost connection")[0]);
+		if (msg.split(" lost connection")[0] in playersinlist){
+			playersinlist = playersinlist.splice(playersinlist.indexOf(msg.split(" lost connection")[0]), 1);
+		    $("#playerlist").empty()
+
+		}
+	}
 
 	
 	//Color filter for Windows (thanks to SuperPykkon)

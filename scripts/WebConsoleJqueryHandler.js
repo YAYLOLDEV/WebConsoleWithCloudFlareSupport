@@ -73,6 +73,27 @@ $("#saveAndConnectServerButton").click(function() {
 	openServer(name);
 });
 
+
+$("#kickbtn").click(function (){
+	if($('#playerlist')[0].getElementsByClassName("active")[0].innerText==null) return
+	connectionManager.sendConsoleCmd("kick " + $('#playerlist')[0].getElementsByClassName("active")[0].innerText);
+
+})
+$("#msgbtn").click(function (){
+	if($('#playerlist')[0].getElementsByClassName("active")[0].innerText==null) return
+	var msg = prompt("Message to Send:")
+	if (!msg) return;
+	connectionManager.sendConsoleCmd("w " + $('#playerlist')[0].getElementsByClassName("active")[0].innerText+" "+msg);
+
+})
+
+$("#broadcastbtn").click(function (){
+
+	var msg = prompt("Message to Send:")
+	if (!msg) return;
+	connectionManager.sendConsoleCmd("bc "+msg);
+})
+
 /**
 * Password modal button click
 */
