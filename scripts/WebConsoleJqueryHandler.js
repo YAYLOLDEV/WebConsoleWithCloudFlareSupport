@@ -94,6 +94,11 @@ $("#broadcastbtn").click(function (){
 	connectionManager.sendConsoleCmd("bc "+msg);
 })
 
+$("#restartbtn").click(function (){
+	if(!confirm("Are you sure you want to restart the server?")) return
+	connectionManager.sendConsoleCmd("restart");
+})
+
 /**
 * Password modal button click
 */

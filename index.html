@@ -87,7 +87,7 @@
 						<h5 class="card-title" id="players_online">Players Online</h5>
 						<p class="card-text"><span id="connectedPlayers">0</span> / <span id="maxPlayers">Unknown</span></p>
 						<div class="progress flat-progressbar">
-							<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="playerProgressBar"></div>
+							<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0;" id="playerProgressBar"></div>
 						</div>
 					</div>
 				</div>
@@ -98,7 +98,7 @@
 						<h5 class="card-title" id="cpu_title">CPU</h5>
 						<p class="card-text" id="cpuInfo">0%</p>
 						<div class="progress flat-progressbar">
-							<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="CpuProgressBar"></div>
+							<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0;" id="CpuProgressBar"></div>
 						</div>
 					</div>
 				</div>
@@ -109,7 +109,7 @@
 						<h5 class="card-title" id="ram_title">RAM</h5>
 						<p class="card-text"><span id="usedRam">0</span> MB / <span id="totalRam">0</span> MB</p>
 						<div class="progress flat-progressbar">
-							<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="RamProgressBar"></div>
+							<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0;" id="RamProgressBar"></div>
 						</div>
 					</div>
 				</div>
@@ -120,7 +120,7 @@
 						<h5 class="card-title" id="tps_title">TPS</h5>
 						<p class="card-text"><span id="tps">0</span> Ticks / <span id="maxTps">0</span> Ticks</p>
 						<div class="progress flat-progressbar">
-							<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" id="TpsProgressBar"></div>
+							<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0;" id="TpsProgressBar"></div>
 						</div>
 					</div>
 				</div>
@@ -148,7 +148,8 @@
 			<div class="col-sm-2">
 				<h5>Server Actions</h5>
 				<div>
-				<button type="button" id="broadcastbtn" class="btn btn-primary p-0 w-100">Broadcast</button>
+					<button type="button" id="broadcastbtn" class="btn btn-primary p-0 w-100">Broadcast</button>
+					<button type="button" id="restartbtn" class="btn btn-danger p-0 w-100">Restart</button>
 				</div>
 				<h5>Players</h5>
 				<div class=" list-group p-0 w-100" id="playerlist" style="word-break: keep-all; outline: 10px; border: gray 1px solid; min-height: fit-content;height: auto;padding-bottom: 10px; width: fit-content; overflow: auto; max-height: 400px;"></div>
