@@ -15,3 +15,14 @@
 #black{
 	color: black;
 }
+
+#playerlist .list-group-item-action.active {
+	background-color: rgba(80, 80, 80, 0.2) !important; /* Light gray background */
+	border-color: #555555 !important;     /* Light gray border */
+
+
+}
+
+#playerlist .list-group-item-action:hover {
+	background-color: rgba(80, 80, 80, 0.3) !important; /* Lighter gray for hover */
+}
