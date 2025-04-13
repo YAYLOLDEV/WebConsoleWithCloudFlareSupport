@@ -1,5 +1,7 @@
 # Still under Development
 
+# Documentation below is Obselete, Will be updated in the future
+
 # WebConsole
 
 Full Credit goes to [Mesacarlos](https://github.com/mesacarlos) for Creating [WebConsole](https://github.com/mesacarlos/WebConsole)!
